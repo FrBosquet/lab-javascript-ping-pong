@@ -1,7 +1,22 @@
 body {
+  margin: 0px;
+  background-color: black;
+}
+
+#app{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #board {
+  position: relative;
+  width: 400px;
+  height: 200px;
+
+  border: 5px solid green;
 }
 
 .paddle {
@@ -14,9 +29,21 @@ body {
 }
 
 #net {
+  position: relative;
+  width: 5px;
+  height: 200px;
+  transform: translateX(200px);
+  background-color: green;
 }
 
 #ball {
+  position: absolute;
+  background-color: green;
+  width: 15px;
+  height: 15px;
+  top: calc( -15px / 2);
+  left: calc( -15px / 2);
+
 }
 
 .score span {
