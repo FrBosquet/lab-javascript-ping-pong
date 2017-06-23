@@ -1,8 +1,9 @@
-function Paddle(x,y) {
+function Paddle(x) {
   this._posX = x;
-  this._posY = y;
+  this._posY = 0;
 }
 Paddle.prototype.restart = function(){
+  this._posY = (Y_UPPER_LIMIT - Y_LOWER_LIMIT)/2;
 };
 
 Paddle.prototype.hitBall = function(ball){

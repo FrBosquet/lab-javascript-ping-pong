@@ -7,6 +7,8 @@ $(document).ready(function(){
   var ballView    = $("#ball");
   var paddle1View = $("#paddle1");
   var paddle2View = $("#paddle2");
+  var score1View  = $("#score1");
+  var score2View  = $("#score2");
 
   //Congifure views
   boardView.css({
@@ -26,44 +28,42 @@ $(document).ready(function(){
     "height"    : (PADDLE_HEIGHT) + "px"
   });
 
-  //Models
-  var paddle1Model = new Paddle(
-    X_LOWER_LIMIT + PADDLE_MARGIN,
-    (Y_UPPER_LIMIT - Y_LOWER_LIMIT)/2
-  )
-  var paddle2Model = new Paddle(
-    X_UPPER_LIMIT - PADDLE_MARGIN,
-    (Y_UPPER_LIMIT - Y_LOWER_LIMIT)/2
-  )
-  var ballModel = new Ball(
-    (X_UPPER_LIMIT - X_LOWER_LIMIT)/2,
-    (Y_UPPER_LIMIT - Y_LOWER_LIMIT)/2,
-    paddle1Model, paddle2Model);
-
-  ballModel.randomDirection();
+  var game = null;
+  var board = new Board();
 
   //Functions
   function updateState(){
+    IA();
+    if(board.checkGame()){
+      renderScore();
+      board.restart();
+    }
+    renderGame();
   }
 
   $(document).on('keydown', function(e){
     switch (e.keyCode) {
       case 38:
-        paddle2Model.moveUp();
+        board.userPaddle.moveUp();
         break;
       case 40:
-        paddle2Model.moveDown();
+        board.userPaddle.moveDown();
         break;
     }
   });
 
-  function activatePaddle2() {
+  function IA() {
+    if(board.ball._posY < board.compPaddle._posY){
+      board.compPaddle.moveUp();
+    }else if(board.ball._posY > board.compPaddle._posY){
+      board.compPaddle.moveDown();
+    }
   }
 
   function renderGame(){
-    renderBall(ballModel, ballView);
-    renderPaddle(paddle1Model, paddle1View);
-    renderPaddle(paddle2Model, paddle2View);
+    renderBall(board.ball, ballView);
+    renderPaddle(board.userPaddle, paddle1View);
+    renderPaddle(board.compPaddle, paddle2View);
   }
 
   function renderPaddle( model, view ){
@@ -73,6 +73,8 @@ $(document).ready(function(){
   }
 
   function renderScore(){
+    score1View.html(board.userPoints);
+    score2View.html(board.compPoints);
   }
 
   function renderBall( model, view ){
@@ -81,16 +83,10 @@ $(document).ready(function(){
     + model._posY + "px)");
   }
 
-  //Listener
-  $('#start').on('click', function(){
-    board.start();
-    activatePaddle2();
-    var game = setInterval(updateState, intervalTime);
-    renderGame();
-  });
+  function winGame(){
+    
+  }
 
-  setInterval(function(){
-    ballModel.move();
-    renderGame();
-  },TIME_DELTA);
+  board.start();
+  game = setInterval(updateState, TIME_DELTA);
 });

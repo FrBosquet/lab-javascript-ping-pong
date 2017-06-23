@@ -4,29 +4,33 @@
 
 .phosphor-screen{
   position: fixed;
-  left: 0px;
-  top: 0px;
-  z-index: 100;
   width: 100vw;
   height: 100vh;
-  background-origin: content-box;
+  left: 0px;
+  top: 0px;
+  /*z-index: 100;*/
   background-image: url("../img/phosphor-grid.png");
+  background-origin: content-box;
   background-repeat: repeat;
-  background-size: 1px;
+  background-size: 3px;
 }
 
-
 body {
-  margin: 0px;
   background-color: black;
+  color: var(--phosphor);
 }
 
 #app{
-  width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.score-board{
+  font-family: "VT323";
+  padding: 15px;
+  font-size: 80px;
 }
 
 #board {
