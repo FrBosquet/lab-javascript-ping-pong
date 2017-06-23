@@ -1,3 +1,21 @@
+:root{
+  --phosphor: #00FF00;
+}
+
+.phosphor-screen{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-origin: content-box;
+  background-image: url("../img/phosphor-grid.png");
+  background-repeat: repeat;
+  background-size: 1px;
+}
+
+
 body {
   margin: 0px;
   background-color: black;
@@ -13,19 +31,23 @@ body {
 
 #board {
   position: relative;
-  width: 400px;
-  height: 200px;
-
-  border: 5px solid green;
+  border: 5px solid var(--phosphor);
 }
 
 .paddle {
+  top: 0px;
+  left: -5px;
+  position: absolute;
+  background-color: var(--phosphor);
+  transform-origin: center;
 }
 
 #paddle1 {
+  transform: translate(0px, 0px);
 }
 
 #paddle2 {
+  transform: translate(270px, 100px);
 }
 
 #net {
@@ -33,12 +55,12 @@ body {
   width: 5px;
   height: 200px;
   transform: translateX(200px);
-  background-color: green;
+  background-color: var(--phosphor);
 }
 
 #ball {
   position: absolute;
-  background-color: green;
+  background-color: var(--phosphor);
   width: 15px;
   height: 15px;
   top: calc( -15px / 2);

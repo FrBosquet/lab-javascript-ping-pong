@@ -17,21 +17,21 @@ Ball.prototype.move = function(){
   this._posX += this._velX * TIME_DELTA;
   this._posY += this._velY * TIME_DELTA;
 
-  console.log(this._posX, this._posY);
-
-  if(this._posX >= X_UPPER_LIMIT){
-    this._posX = X_UPPER_LIMIT;
+  if(this._usrPaddle.hitBall(this) || this._cmpPaddle.hitBall(this)){
     this._velX *= -1;
-  }else if(this._posX <= X_LOWER_LIMIT){
-    this._posX = X_LOWER_LIMIT;
+  }if(this._posX >= X_UPPER_LIMIT - PIXEL_SIZE){
+    this._velX *= -1;
+    this._posX = X_UPPER_LIMIT - PIXEL_SIZE;
+  }else if(this._posX <= X_LOWER_LIMIT + PIXEL_SIZE){
+    this._posX = X_LOWER_LIMIT + PIXEL_SIZE;
     this._velX *= -1;
   }
 
-  if(this._posY >= Y_UPPER_LIMIT){
-    this._posY = Y_UPPER_LIMIT;
+  if(this._posY >= Y_UPPER_LIMIT - PIXEL_SIZE){
+    this._posY = Y_UPPER_LIMIT - PIXEL_SIZE;
     this._velY *= -1;
-  }else if(this._posY <= Y_LOWER_LIMIT){
-    this._posY = Y_LOWER_LIMIT;
+  }else if(this._posY <= Y_LOWER_LIMIT + PIXEL_SIZE){
+    this._posY = Y_LOWER_LIMIT + PIXEL_SIZE;
     this._velY *= -1;
   }
 };
