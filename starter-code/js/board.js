@@ -2,7 +2,6 @@ function Board() {
   this.userPaddle = null;
   this.compPaddle = null;
   this.ball = null;
-  this.game = null;
   this.userPoints = 0;
   this.compPoints = 0;
 }
@@ -15,7 +14,8 @@ Board.prototype.start = function(){
   this.compPaddle = new Paddle(
     X_LOWER_LIMIT + PADDLE_MARGIN
   );
-
+  this.userPoints = 0;
+  this.compPoints = 0;
   this.restart();
 };
 
@@ -34,6 +34,12 @@ Board.prototype.checkGame = function(){
   }
   return changeState;
 };
+
+Board.prototype.checkWinner = function(){
+  if(this.userPoints == POINT_LIMIT) return 1;
+  if(this.compPoints == POINT_LIMIT) return 2;
+  return 0;
+}
 
 Board.prototype.restart = function(){
   this.userPaddle.restart();

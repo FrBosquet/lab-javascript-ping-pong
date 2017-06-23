@@ -8,16 +8,58 @@
   height: 100vh;
   left: 0px;
   top: 0px;
-  /*z-index: 100;*/
+  z-index: 100;
   background-image: url("../img/phosphor-grid.png");
   background-origin: content-box;
   background-repeat: repeat;
   background-size: 3px;
+  pointer-events: none;
 }
 
 body {
   background-color: black;
   color: var(--phosphor);
+  font-family: "VT323";
+}
+
+#win-panel{
+  z-index: 99;
+  background-color: black;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#win-panel h1{
+  font-size: 120px;
+  text-transform: uppercase;
+}
+
+#win-panel.hidden{
+  display: none;
+}
+
+#win-panel button{
+  color: var(--phosphor);
+  font-family: "VT323";
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  font-size: 25px;
+  background-color: black;
+  border: none;
+  box-sizing: border-box;
+}
+
+#win-panel button:hover{
+  border: 5px solid var(--phosphor);
+
 }
 
 #app{
@@ -28,7 +70,6 @@ body {
 }
 
 .score-board{
-  font-family: "VT323";
   padding: 15px;
   font-size: 80px;
 }

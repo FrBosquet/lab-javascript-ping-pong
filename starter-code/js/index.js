@@ -1,6 +1,23 @@
 var board = new Board();
 
 $(document).ready(function(){
+
+  ion.sound({
+      sounds: [
+          {name: "beer_can_opening"},
+      ],
+
+      // main config
+      path: "ion.sound/sounds/",
+      preload: true,
+      multiplay: true,
+      volume: 0.9
+  });
+
+  setInterval(function(){
+      ion.sound.play("beer_can_opening");
+  }, 500);
+
   //Views
   var boardView   = $("#board");
   var netView     = $("#net");
@@ -9,6 +26,8 @@ $(document).ready(function(){
   var paddle2View = $("#paddle2");
   var score1View  = $("#score1");
   var score2View  = $("#score2");
+  var winPanel    = $("#win-panel");
+  var winHeader   = $("#win-panel h1");
 
   //Congifure views
   boardView.css({
@@ -28,21 +47,17 @@ $(document).ready(function(){
     "height"    : (PADDLE_HEIGHT) + "px"
   });
 
+  var key = 0;
   var game = null;
   var board = new Board();
 
+
   //Functions
   function updateState(){
+    //Computer move
     IA();
-    if(board.checkGame()){
-      renderScore();
-      board.restart();
-    }
-    renderGame();
-  }
-
-  $(document).on('keydown', function(e){
-    switch (e.keyCode) {
+    //Player move
+    switch (key) {
       case 38:
         board.userPaddle.moveUp();
         break;
@@ -50,6 +65,28 @@ $(document).ready(function(){
         board.userPaddle.moveDown();
         break;
     }
+    //Pint condition
+    if(board.checkGame()){
+      renderScore();
+      board.restart();
+    }
+    //Win check
+    if(board.checkWinner() != 0){
+      winGame();
+    }
+
+    //Render
+    renderGame();
+  }
+
+  $(document).on('keydown', function(e){key = e.keyCode;});
+  $(document).on('keyup', function(e){key = 0;});
+
+  $("#win-panel button").on('click', function(){
+    board.start();
+    renderScore();
+    game = setInterval(updateState, TIME_DELTA);
+    winPanel.toggleClass("hidden");
   });
 
   function IA() {
@@ -83,10 +120,25 @@ $(document).ready(function(){
     + model._posY + "px)");
   }
 
-  function winGame(){
-    
+  function loadSounds () {
+    ion.sound({
+      sounds: [{name: "glass"}, {name: "light_bulb_breaking"}, {name: "tap"}, {name: "computer_error"}],
+
+      path: "js/ion.sound/sounds/",
+      preload: true,
+      volume: 0.8
+    });
   }
 
+  function winGame(){
+    clearInterval(game);
+    winPanel.toggleClass("hidden");
+    var winner = board.checkWinner();
+    ion.sound.play("computer_error");
+    winHeader.html(winner == 2 ? "Player wins!" : "Computer wins :(");
+  }
+
+  loadSounds();
   board.start();
   game = setInterval(updateState, TIME_DELTA);
 });
